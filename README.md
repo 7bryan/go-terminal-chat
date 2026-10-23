@@ -1,5 +1,7 @@
 # GO TERMINAL CHAT
 
+simple collaborative terminal chat build using Go
+
 ## Project Structure
 
 ```
