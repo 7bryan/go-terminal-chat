@@ -1,4 +1,4 @@
-# GO-TERMINAL-CHAT
+# GO TERMINAL CHAT
 
 ## Project Structure
 
