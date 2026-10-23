@@ -1,0 +1,24 @@
+# Compiled binaries
+*.exe
+*.exe~
+*.dll
+*.so
+*.dylib
+*.test
+*.out
+
+# Project-specific binaries
+/terminal-chat
+/server
+
+# Dependency directories
+vendor/
+
+# OS-specific artifacts
+.DS_Store
+Thumbs.db
+
+# Editor and IDE directories
+.idea/
+*.swp
+*.swo
