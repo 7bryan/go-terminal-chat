@@ -13,21 +13,23 @@ type Room struct {
 func NewRoom() *Room {
 	return &Room{
 		clients:   make(map[*Client]bool),
-		broadcast: make(chan string),
+		broadcast: make(chan string, 256),
 	}
 }
 
 func (r *Room) Run() {
-	for {
-		msg := <-r.broadcast
-
+	for msg := range r.broadcast {
 		r.mu.RLock()
 
+		activeClients := make([]*Client, 0, len(r.clients))
 		for client := range r.clients {
+			activeClients = append(activeClients, client)
+		}
+		r.mu.RUnlock()
+
+		for _, client := range activeClients {
 			client.conn.Write([]byte(msg))
 		}
-
-		r.mu.RUnlock()
 	}
 }
 
