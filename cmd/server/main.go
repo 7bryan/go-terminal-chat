@@ -3,24 +3,26 @@ package main
 import (
 	"flag"
 	"fmt"
-	"os"
+	"log"
+
+	"github.com/7bryan/go-terminal-chat/internal/chat"
 )
 
-type Room struct {
-	Name string
-	Port int
-}
-
 func main() {
+	portFlag := flag.String("port", "8989", "TCP port number for server")
 	flag.Parse()
 
-	trailingArgs := flag.Args()
-
-	if len(trailingArgs) < 1 {
-		fmt.Println("Error: please provide a port number. Usage: go run main.go <port>")
-		os.Exit(1)
+	port := *portFlag
+	if flag.NArg() > 0 {
+		port = flag.Arg(0)
 	}
 
-	port := trailingArgs[0]
 	fmt.Printf("Starting server on port: %s\n", port)
+
+	room := chat.NewRoom()
+	go room.Run()
+
+	if err := chat.StartServer(port, room); err != nil {
+		log.Fatalf("Server error: %v\n", err)
+	}
 }
