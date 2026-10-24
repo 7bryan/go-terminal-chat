@@ -14,6 +14,8 @@ func StartServer(port string, room *Room) error {
 	}
 	defer listener.Close()
 
+	log.Printf("Server listening on %s...", addr)
+
 	for {
 		conn, err := listener.Accept()
 		if err != nil {
