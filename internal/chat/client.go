@@ -17,7 +17,11 @@ type Client struct {
 
 func (c *Client) Start() error {
 	defer func() {
-		c.room.RemoveClient(c)
+		if c.username != "" {
+			c.room.RemoveClient(c)
+			departure := fmt.Sprintf("=== %s has left ===\n", c.username)
+			c.room.broadcast <- departure
+		}
 		c.conn.Close()
 	}()
 
@@ -33,7 +37,7 @@ func (c *Client) Start() error {
 	}
 
 	if err := scanner.Err(); err != nil || c.username == "" {
-		log.Printf("Error reading username or empty input from %s: %v\n", c.conn.RemoteAddr(), err)
+		log.Printf("Error reading username from %s: %v\n", c.conn.RemoteAddr(), err)
 		return err
 	}
 
@@ -57,9 +61,6 @@ func (c *Client) Start() error {
 		log.Printf("Scanner error for client %s: %v", c.username, err)
 		return err
 	}
-
-	departure := fmt.Sprintf("=== %s has left ===\n", c.username)
-	c.room.broadcast <- departure
 
 	return nil
 }
