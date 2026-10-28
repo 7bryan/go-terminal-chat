@@ -20,7 +20,7 @@ func (c *Client) Start() error {
 		if c.username != "" {
 			c.room.RemoveClient(c)
 			departure := fmt.Sprintf("=== %s has left ===\n", c.username)
-			c.room.broadcast <- departure
+			c.room.broadcast <- Message{System: departure}
 		}
 		c.conn.Close()
 	}()
@@ -43,18 +43,24 @@ func (c *Client) Start() error {
 
 	c.room.AddClient(c)
 	announcement := fmt.Sprintf("=== %s has joined ===\n", c.username)
-	c.room.broadcast <- announcement
+	c.room.broadcast <- Message{System: announcement}
 
 	timeFormat := "15:04:05"
 	for scanner.Scan() {
+		c.conn.Write([]byte("\033[1A\033[2K\r"))
+
 		text := strings.TrimSpace(scanner.Text())
 		if text == "" {
 			continue
 		}
 
 		now := time.Now().Format(timeFormat)
-		msg := fmt.Sprintf("[%s] %s: %s\n", now, c.username, text)
-		c.room.broadcast <- msg
+		c.room.broadcast <- Message{
+			Sender:   c,
+			Time:     now,
+			Username: c.username,
+			Text:     text,
+		}
 	}
 
 	if err := scanner.Err(); err != nil {
