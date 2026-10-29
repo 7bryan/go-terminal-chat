@@ -10,6 +10,33 @@ The server allow multiple users to connect simultaneously via TCP, choose a user
 - Sender identifications: Visually distinguishes the user messages ibn the chat history by appending (you) next to the user username
 - Custom Port Binding: Set a custom port using command line flags (defaults to 8989)
 
+## Getting Started
+
+### Prerequisites
+
+- Go
+- A TCP client like [netcat](https://nmap.org/ncat) or telnet to connect to the server
+
+### Running the Server
+
+Start the server using the Go CLI. By default, it will listen to port 8989
+
+```bash
+go run cmd/server/main.go
+```
+
+To specify a custom port, use the --port flag or pass the port a a direct arguemet
+
+```bash
+go run cmd/server/main.go --port 3000
+```
+
+or
+
+```bash
+go run cmd/server/main.go 3000
+```
+
 ## Project Structure
 
 ```
