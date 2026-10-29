@@ -1,6 +1,14 @@
 # GO TERMINAL CHAT
 
-simple collaborative terminal chat build using Go
+A simple, real time collaborative terminal chat application build in Go.
+The server allow multiple users to connect simultaneously via TCP, choose a username and broadcast messages to the room.
+
+## Features
+
+- TCP Connections: Accepts multiple concurent client connections
+- System Announcements: Automatically broadcasts when users join or leave the chat
+- Sender identifications: Visually distinguishes the user messages ibn the chat history by appending (you) next to the user username
+- Custom Port Binding: Set a custom port using command line flags (defaults to 8989)
 
 ## Project Structure
 
