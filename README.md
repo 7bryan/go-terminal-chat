@@ -37,6 +37,20 @@ or
 go run cmd/server/main.go 3000
 ```
 
+### Connecting to the Chat
+
+Once the server is running, connect to it using netcat
+
+```bash
+nc localhost 8989
+```
+
+or
+
+```bash
+netcat localhost 8989
+```
+
 ## Project Structure
 
 ```
